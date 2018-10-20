@@ -136,6 +136,7 @@ import static org.springframework.cloud.gateway.config.HttpClientProperties.Pool
 import static org.springframework.cloud.gateway.config.HttpClientProperties.Pool.PoolType.FIXED;
 
 /**
+ * NOTE 1 ： 核心配置
  * @author Spencer Gibb
  */
 @Configuration
@@ -281,7 +282,7 @@ public class GatewayAutoConfiguration {
 	public RouteDefinitionLocator routeDefinitionLocator(List<RouteDefinitionLocator> routeDefinitionLocators) {
 		return new CompositeRouteDefinitionLocator(Flux.fromIterable(routeDefinitionLocators));
 	}
-
+	// NOTE 1 :路由定位器
 	@Bean
 	public RouteLocator routeDefinitionRouteLocator(GatewayProperties properties,
 												   List<GatewayFilterFactory> GatewayFilters,
@@ -301,7 +302,7 @@ public class GatewayAutoConfiguration {
 	public RouteRefreshListener routeRefreshListener(ApplicationEventPublisher publisher) {
 		return new RouteRefreshListener(publisher);
 	}
-
+	// NOTE 1 :初始化 FilteringWebHandler
 	@Bean
 	public FilteringWebHandler filteringWebHandler(List<GlobalFilter> globalFilters) {
 		return new FilteringWebHandler(globalFilters);
@@ -311,7 +312,7 @@ public class GatewayAutoConfiguration {
 	public GlobalCorsProperties globalCorsProperties() {
 		return new GlobalCorsProperties();
 	}
-	
+	// NOTE 1 : 用于查找匹配到 Route ，并进行处理
 	@Bean
 	public RoutePredicateHandlerMapping routePredicateHandlerMapping(
 			FilteringWebHandler webHandler, RouteLocator routeLocator,
@@ -320,7 +321,7 @@ public class GatewayAutoConfiguration {
 				globalCorsProperties, environment);
 	}
 
-	// ConfigurationProperty beans
+	// NOTE 1 : 初始化ConfigurationProperty beans，加载网关配置
 
 	@Bean
 	public GatewayProperties gatewayProperties() {
@@ -351,7 +352,7 @@ public class GatewayAutoConfiguration {
 		return new XForwardedHeadersFilter();
 	}
 
-	// GlobalFilter beans
+	// NOTE 1 : GlobalFilter beans
 	
 	@Bean
 	public AdaptCachedBodyGlobalFilter adaptCachedBodyGlobalFilter() {
@@ -597,7 +598,7 @@ public class GatewayAutoConfiguration {
 	public RequestSizeGatewayFilterFactory requestSizeGatewayFilterFactory() {
 		return new RequestSizeGatewayFilterFactory();
 	}
-
+	// NOTE 1 ：提供管理网关的 HTTP API
 	@Configuration
 	@ConditionalOnClass(Health.class)
 	protected static class GatewayActuatorConfiguration {
