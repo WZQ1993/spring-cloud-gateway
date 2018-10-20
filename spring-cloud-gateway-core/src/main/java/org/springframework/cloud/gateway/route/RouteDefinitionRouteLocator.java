@@ -52,6 +52,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 
 /**
+ * RouteDefinitionRouteLocator 从 RouteDefinitionLocator 获取 RouteDefinition ，转换成 Route
  * {@link RouteLocator} that loads routes from a {@link RouteDefinitionLocator}
  * @author Spencer Gibb
  */
@@ -80,9 +81,13 @@ public class RouteDefinitionRouteLocator implements RouteLocator, BeanFactoryAwa
 									   List<RoutePredicateFactory> predicates,
 									   List<GatewayFilterFactory> gatewayFilterFactories,
 									   GatewayProperties gatewayProperties) {
+		// 设置 RouteDefinitionLocator
 		this.routeDefinitionLocator = routeDefinitionLocator;
+		// 初始化 RoutePredicateFactory
 		initFactories(predicates);
+		// 设置 gatewayFilterFactories
 		gatewayFilterFactories.forEach(factory -> this.gatewayFilterFactories.put(factory.name(), factory));
+		// 设置 GatewayProperties
 		this.gatewayProperties = gatewayProperties;
 	}
 
@@ -134,9 +139,11 @@ public class RouteDefinitionRouteLocator implements RouteLocator, BeanFactoryAwa
 	}
 	// 将路由定义转换为路由
 	private Route convertToRoute(RouteDefinition routeDefinition) {
+		// 合并 Predicate
 		AsyncPredicate<ServerWebExchange> predicate = combinePredicates(routeDefinition);
+		// 获得 GatewayFilter
 		List<GatewayFilter> gatewayFilters = getFilters(routeDefinition);
-
+		// 构建 Route
 		return Route.async(routeDefinition)
 				.asyncPredicate(predicate)
 				.replaceFilters(gatewayFilters)
