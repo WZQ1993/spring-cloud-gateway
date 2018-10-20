@@ -280,6 +280,12 @@ public class GatewayAutoConfiguration {
 	@Bean
 	@Primary
 	public RouteDefinitionLocator routeDefinitionLocator(List<RouteDefinitionLocator> routeDefinitionLocators) {
+		// fromIterable 迭代器
+		// List<RouteDefinitionLocator> ->
+		// fromIterable
+		// Flux<RouteDefinitionLocator>(RouteDefinitionLocator one by one) ->
+		// flatMap
+		// Flux<RouteDefinition>(RouteDefinition one by one)
 		return new CompositeRouteDefinitionLocator(Flux.fromIterable(routeDefinitionLocators));
 	}
 	// NOTE 1 :路由定位器

@@ -55,6 +55,11 @@ public class RouteDefinition {
 
 	public RouteDefinition() {}
 
+	/**
+	 *
+	 * @param text
+	 * des : ${id}=${uri},${predicates[0]},${predicates[1]}...${predicates[n]}
+	 */
 	public RouteDefinition(String text) {
 		int eqIdx = text.indexOf("=");
 		if (eqIdx <= 0) {
