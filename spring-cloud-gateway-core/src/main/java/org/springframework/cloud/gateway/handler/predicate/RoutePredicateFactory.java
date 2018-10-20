@@ -29,6 +29,7 @@ import org.springframework.web.server.ServerWebExchange;
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.toAsyncPredicate;
 
 /**
+ * NOTE 2 :断言构造器的顶级接口
  * @author Spencer Gibb
  */
 @FunctionalInterface
@@ -60,7 +61,7 @@ public interface RoutePredicateFactory<C> extends ShortcutConfigurable, Configur
 	}
 
 	default void beforeApply(C config) {}
-
+    // 核心方法，即函数接口的唯一抽象方法，用于生产 Predicate，接收一个范型参数 config
 	Predicate<ServerWebExchange> apply(C config);
 
 	default AsyncPredicate<ServerWebExchange> applyAsync(C config) {

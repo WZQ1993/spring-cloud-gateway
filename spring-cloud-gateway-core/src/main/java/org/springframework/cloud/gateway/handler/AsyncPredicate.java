@@ -31,7 +31,7 @@ public interface AsyncPredicate<T> extends Function<T, Publisher<Boolean>> {
 
 	default AsyncPredicate<T> and(AsyncPredicate<? super T> other) {
 		Objects.requireNonNull(other, "other must not be null");
-
+		// 等待两个结果-组合结果
 		return t -> Flux.zip(apply(t), other.apply(t))
 				.map(tuple -> tuple.getT1() && tuple.getT2());
 	}

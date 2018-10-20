@@ -37,16 +37,17 @@ import org.springframework.web.util.UriComponentsBuilder;
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.toAsyncPredicate;
 
 /**
+ * NOTE 2:路由信息的载体
  * @author Spencer Gibb
  */
 public class Route implements Ordered {
 
 	private final String id;
-
+    // 目的地
 	private final URI uri;
 
 	private final int order;
-
+    // 匹配该 Route 的前置条件，即满足相应的条件才会被路由到目的地 uri
 	private final AsyncPredicate<ServerWebExchange> predicate;
 
 	private final List<GatewayFilter> gatewayFilters;

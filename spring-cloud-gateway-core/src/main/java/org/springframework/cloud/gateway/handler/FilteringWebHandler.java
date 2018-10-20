@@ -88,7 +88,7 @@ public class FilteringWebHandler implements WebHandler {
 
 		return new DefaultGatewayFilterChain(combined).filter(exchange);
 	}
-
+	// 在请求过程中创建，运行完毕后，没有其他长生命周期的对象hold住，gc很快清除
 	private static class DefaultGatewayFilterChain implements GatewayFilterChain {
 
 		private final int index;
@@ -112,8 +112,11 @@ public class FilteringWebHandler implements WebHandler {
 		public Mono<Void> filter(ServerWebExchange exchange) {
 			return Mono.defer(() -> {
 				if (this.index < filters.size()) {
+					// 当前要执行的过滤器
 					GatewayFilter filter = filters.get(this.index);
+					// 后续要执行的过滤链表
 					DefaultGatewayFilterChain chain = new DefaultGatewayFilterChain(this, this.index + 1);
+					// 过滤器执行完毕后，会调用上一步要执行的过滤链表，直到else成立
 					return filter.filter(exchange, chain);
 				} else {
 					return Mono.empty(); // complete

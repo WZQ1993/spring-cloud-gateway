@@ -66,6 +66,16 @@ public class RouteDefinitionRouteLocator implements RouteLocator, BeanFactoryAwa
 	private BeanFactory beanFactory;
 	private ApplicationEventPublisher publisher;
 
+	/**
+	 * 疑问：该类依赖 GatewayProperties 对象，后者已经携带了 List 结构的 RouteDefinition，那为什么还要依赖 RouteDefinitionLocator 来提供 RouteDefinition？
+	 *
+	 * 这里并不会直接使用到 GatewayProperties 类中的 RouteDefinition，仅是用到其定义的 default filters，这会应用到每一个 Route 上。
+	 * 最终传入的 RouteDefinitionLocator 实现上是 CompositeRouteDefinitionLocator 的实例，它组合了 GatewayProperties 中所定义的 routes。
+	 * @param routeDefinitionLocator
+	 * @param predicates
+	 * @param gatewayFilterFactories
+	 * @param gatewayProperties
+	 */
 	public RouteDefinitionRouteLocator(RouteDefinitionLocator routeDefinitionLocator,
 									   List<RoutePredicateFactory> predicates,
 									   List<GatewayFilterFactory> gatewayFilterFactories,
@@ -122,7 +132,7 @@ public class RouteDefinitionRouteLocator implements RouteLocator, BeanFactoryAwa
 				logger.trace("RouteDefinition did not match: " + routeDefinition.getId());
 			}*/
 	}
-
+	// 将路由定义转换为路由
 	private Route convertToRoute(RouteDefinition routeDefinition) {
 		AsyncPredicate<ServerWebExchange> predicate = combinePredicates(routeDefinition);
 		List<GatewayFilter> gatewayFilters = getFilters(routeDefinition);
@@ -174,7 +184,7 @@ public class RouteDefinitionRouteLocator implements RouteLocator, BeanFactoryAwa
 
 		return ordered;
 	}
-
+	// filter定义转换为网关filter
 	private List<GatewayFilter> getFilters(RouteDefinition routeDefinition) {
 		List<GatewayFilter> filters = new ArrayList<>();
 
@@ -191,7 +201,7 @@ public class RouteDefinitionRouteLocator implements RouteLocator, BeanFactoryAwa
 		AnnotationAwareOrderComparator.sort(filters);
 		return filters;
 	}
-
+	// 提取路由断言
 	private AsyncPredicate<ServerWebExchange> combinePredicates(RouteDefinition routeDefinition) {
 		List<PredicateDefinition> predicates = routeDefinition.getPredicates();
 		AsyncPredicate<ServerWebExchange> predicate = lookup(routeDefinition, predicates.get(0));
@@ -203,13 +213,15 @@ public class RouteDefinitionRouteLocator implements RouteLocator, BeanFactoryAwa
 
 		return predicate;
 	}
-
+	// 断言转换逻辑
 	@SuppressWarnings("unchecked")
 	private AsyncPredicate<ServerWebExchange> lookup(RouteDefinition route, PredicateDefinition predicate) {
+		// 获取对应的断言工厂
 		RoutePredicateFactory<Object> factory = this.predicates.get(predicate.getName());
 		if (factory == null) {
             throw new IllegalArgumentException("Unable to find RoutePredicateFactory with name " + predicate.getName());
 		}
+		// 参数的获取和转换
 		Map<String, String> args = predicate.getArgs();
 		if (logger.isDebugEnabled()) {
 			logger.debug("RouteDefinition " + route.getId() + " applying "
@@ -223,6 +235,7 @@ public class RouteDefinitionRouteLocator implements RouteLocator, BeanFactoryAwa
         if (this.publisher != null) {
             this.publisher.publishEvent(new PredicateArgsEvent(this, route.getId(), properties));
         }
+        // 构造断言
         return factory.applyAsync(config);
 	}
 }
