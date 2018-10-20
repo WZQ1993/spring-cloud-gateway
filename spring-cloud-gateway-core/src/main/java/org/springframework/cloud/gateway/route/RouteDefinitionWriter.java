@@ -20,6 +20,7 @@ package org.springframework.cloud.gateway.route;
 import reactor.core.publisher.Mono;
 
 /**
+ * 路由配置写入
  * @author Spencer Gibb
  */
 public interface RouteDefinitionWriter {

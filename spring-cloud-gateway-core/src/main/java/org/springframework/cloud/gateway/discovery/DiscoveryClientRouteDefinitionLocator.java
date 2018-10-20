@@ -36,6 +36,7 @@ import org.springframework.expression.spel.support.SimpleEvaluationContext;
 import org.springframework.util.StringUtils;
 
 /**
+ * 通过调用 DiscoveryClient 获取注册在注册中心的服务列表，生成对应的 RouteDefinition 数组。
  * TODO: change to RouteLocator? use java dsl
  * @author Spencer Gibb
  */
@@ -43,6 +44,7 @@ public class DiscoveryClientRouteDefinitionLocator implements RouteDefinitionLoc
 
 	private final DiscoveryClient discoveryClient;
 	private final DiscoveryLocatorProperties properties;
+	// 路由配置编号前缀，以 DiscoveryClient 类名 + _
 	private final String routeIdPrefix;
 	private final SimpleEvaluationContext evalCtxt;
 
@@ -89,12 +91,14 @@ public class DiscoveryClientRouteDefinitionLocator implements RouteDefinitionLoc
 					String serviceId = instance.getServiceId();
 
                     RouteDefinition routeDefinition = new RouteDefinition();
+                    // {DiscoverClient}_{serviceId}
                     routeDefinition.setId(this.routeIdPrefix + serviceId);
+                    // lb://${serviceId}
 					String uri = urlExpr.getValue(evalCtxt, instance, String.class);
 					routeDefinition.setUri(URI.create(uri));
 
 					final ServiceInstance instanceForEval = new DelegatingServiceInstance(instance, properties);
-
+                    // 创建 Path 匹配断言
 					for (PredicateDefinition original : this.properties.getPredicates()) {
 						PredicateDefinition predicate = new PredicateDefinition();
 						predicate.setName(original.getName());
@@ -104,7 +108,7 @@ public class DiscoveryClientRouteDefinitionLocator implements RouteDefinitionLoc
 						}
 						routeDefinition.getPredicates().add(predicate);
 					}
-
+					// 添加网关过滤器
                     for (FilterDefinition original : this.properties.getFilters()) {
                     	FilterDefinition filter = new FilterDefinition();
                     	filter.setName(original.getName());
