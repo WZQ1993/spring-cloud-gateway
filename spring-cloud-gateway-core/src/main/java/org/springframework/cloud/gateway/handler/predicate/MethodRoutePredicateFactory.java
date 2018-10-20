@@ -25,6 +25,18 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
+ * Route 匹配 ：请求 Method 匹配指定值。
+ * <pre>
+ * spring:
+ *   cloud:
+ *     gateway:
+ *       routes:
+ *       # =====================================
+ *       - id: method_route
+ *         uri: http://example.org
+ *         predicates:
+ *         - Method=GET
+ * </pre>
  * @author Spencer Gibb
  */
 public class MethodRoutePredicateFactory extends AbstractRoutePredicateFactory<MethodRoutePredicateFactory.Config> {

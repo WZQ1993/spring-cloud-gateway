@@ -27,6 +27,16 @@ import org.springframework.web.server.ServerWebExchange;
 import static org.springframework.cloud.gateway.handler.predicate.BetweenRoutePredicateFactory.getZonedDateTime;
 
 /**
+ * Route 匹配 ：请求时间满足在配置时间之后。
+ * spring:
+ *   cloud:
+ *     gateway:
+ *       routes:
+ *       # =====================================
+ *       - id: after_route
+ *         uri: http://example.org
+ *         predicates:
+ *         - After=2017-01-20T17:42:47.789-07:00[America/Denver]
  * @author Spencer Gibb
  */
 public class AfterRoutePredicateFactory extends AbstractRoutePredicateFactory<AfterRoutePredicateFactory.Config> {

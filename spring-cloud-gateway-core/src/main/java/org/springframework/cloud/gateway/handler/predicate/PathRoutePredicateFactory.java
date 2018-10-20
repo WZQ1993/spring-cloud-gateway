@@ -37,6 +37,18 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.U
 import static org.springframework.http.server.PathContainer.parsePath;
 
 /**
+ * Route 匹配 ：请求 Path 匹配指定值。
+ * <pre>
+ * spring:
+ *   cloud:
+ *     gateway:
+ *       routes:
+ *       # =====================================
+ *       - id: host_route
+ *         uri: http://example.org
+ *         predicates:
+ *         - Path=/foo/{segment}
+ * </pre>
  * @author Spencer Gibb
  */
 public class PathRoutePredicateFactory extends AbstractRoutePredicateFactory<PathRoutePredicateFactory.Config> {

@@ -27,6 +27,18 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
+ * Route 匹配 ：请求指定 Header 正则匹配指定值。
+ * <pre>
+ * spring:
+ *   cloud:
+ *     gateway:
+ *       routes:
+ *       # =====================================
+ *       - id: header_route
+ *         uri: http://example.org
+ *         predicates:
+ *         - Header=X-Request-Id, \d+
+ * </pre>
  * @author Spencer Gibb
  */
 public class HeaderRoutePredicateFactory extends AbstractRoutePredicateFactory<HeaderRoutePredicateFactory.Config> {

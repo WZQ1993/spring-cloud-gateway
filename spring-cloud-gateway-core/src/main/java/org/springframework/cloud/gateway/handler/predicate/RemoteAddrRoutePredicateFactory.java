@@ -37,6 +37,18 @@ import java.util.function.Predicate;
 import static org.springframework.cloud.gateway.support.ShortcutConfigurable.ShortcutType.GATHER_LIST;
 
 /**
+ * Route 匹配 ：请求来源 IP 在指定范围内。
+ * <pre>
+ * spring:
+ *   cloud:
+ *     gateway:
+ *       routes:
+ *       # =====================================
+ *       - id: remoteaddr_route
+ *         uri: http://example.org
+ *         predicates:
+ *         - RemoteAddr=192.168.1.1/24
+ * </pre>
  * @author Spencer Gibb
  */
 public class RemoteAddrRoutePredicateFactory extends AbstractRoutePredicateFactory<RemoteAddrRoutePredicateFactory.Config> {

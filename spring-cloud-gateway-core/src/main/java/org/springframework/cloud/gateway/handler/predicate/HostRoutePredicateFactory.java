@@ -28,6 +28,18 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
+ * Route 匹配 ：请求 Host 匹配指定值。
+ * <pre>
+ * spring:
+ *   cloud:
+ *     gateway:
+ *       routes:
+ *       # =====================================
+ *       - id: host_route
+ *         uri: http://example.org
+ *         predicates:
+ *         - Host=**.somehost.org
+ * </pre>
  * @author Spencer Gibb
  */
 public class HostRoutePredicateFactory extends AbstractRoutePredicateFactory<HostRoutePredicateFactory.Config> {

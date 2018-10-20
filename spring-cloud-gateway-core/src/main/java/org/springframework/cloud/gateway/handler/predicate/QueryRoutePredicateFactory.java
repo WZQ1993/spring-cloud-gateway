@@ -28,6 +28,19 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
+ * <h4>Route 匹配 ：请求 QueryParam 匹配指定值。</h4>
+ * <pre>
+ * spring:
+ *   cloud:
+ *     gateway:
+ *       routes:
+ *       # =====================================
+ *       - id: query_route
+ *         uri: http://example.org
+ *         predicates:
+ *         - Query=baz
+ *         - Query=foo, ba.
+ * </pre>
  * @author Spencer Gibb
  */
 public class QueryRoutePredicateFactory extends AbstractRoutePredicateFactory<QueryRoutePredicateFactory.Config> {

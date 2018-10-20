@@ -31,6 +31,16 @@ import org.springframework.web.server.ServerWebExchange;
 import javax.validation.constraints.NotEmpty;
 
 /**
+ * Route 匹配 ：请求时间满足在配置时间之间。
+ * spring:
+ *   cloud:
+ *     gateway:
+ *       routes:
+ *       # =====================================
+ *       - id: between_route
+ *         uri: http://example.org
+ *         predicates:
+ *         - Betweeen=2017-01-20T17:42:47.789-07:00[America/Denver], 2017-01-21T17:42:47.789-07:00[America/Denver]
  * @author Spencer Gibb
  */
 public class BetweenRoutePredicateFactory extends AbstractRoutePredicateFactory<BetweenRoutePredicateFactory.Config> {
