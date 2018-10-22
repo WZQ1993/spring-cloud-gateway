@@ -54,7 +54,7 @@ public class RoutePredicateHandlerMapping extends AbstractHandlerMapping {
 		setOrder(1);		
 		setCorsConfigurations(globalCorsProperties.getCorsConfigurations());
 	}
-
+	// 路由匹配的过程
 	@Override
 	protected Mono<?> getHandlerInternal(ServerWebExchange exchange) {
 		// don't handle requests on the management port if set
