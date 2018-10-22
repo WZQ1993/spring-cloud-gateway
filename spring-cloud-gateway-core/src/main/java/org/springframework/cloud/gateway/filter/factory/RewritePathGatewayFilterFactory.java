@@ -27,6 +27,20 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.G
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.addOriginalRequestUrl;
 
 /**
+ * 根据配置的正则表达式 regexp ，使用配置的 replacement 重写请求 Path 。从功能目的上类似 《Module ngx_http_rewrite_module》 。
+ * <pre>
+ * spring:
+ *   cloud:
+ *     gateway:
+ *       routes:
+ *       # =====================================
+ *       - id: rewritepath_route
+ *         uri: http://example.org
+ *         predicates:
+ *         - Path=/foo/**
+ *         filters:
+ *         - RewritePath=/foo/(?<segment>.*), /$\{segment}
+ * </pre>
  * @author Spencer Gibb
  */
 public class RewritePathGatewayFilterFactory extends AbstractGatewayFilterFactory<RewritePathGatewayFilterFactory.Config> {

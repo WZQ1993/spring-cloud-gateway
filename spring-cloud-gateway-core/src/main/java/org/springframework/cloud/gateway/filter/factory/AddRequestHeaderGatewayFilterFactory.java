@@ -21,6 +21,18 @@ import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 
 /**
+ * 用途 ：添加指定请求 Header 为指定值
+ * <pre>
+ * spring:
+ *   cloud:
+ *     gateway:
+ *       routes:
+ *       # =====================================
+ *       - id: add_request_header_route
+ *         uri: http://example.org
+ *         filters:
+ *         - AddRequestHeader=X-Request-Foo, Bar
+ * </pre>
  * @author Spencer Gibb
  */
 public class AddRequestHeaderGatewayFilterFactory extends AbstractNameValueGatewayFilterFactory {
