@@ -15,6 +15,9 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.G
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.isAlreadyRouted;
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.setAlreadyRouted;
 
+/**
+ * 转发路由网关过滤器。其根据 forward:// 前缀( Scheme )过滤处理，将请求转发到当前网关实例本地接口。
+ */
 public class ForwardRoutingFilter implements GlobalFilter, Ordered {
 
 	private static final Log log = LogFactory.getLog(ForwardRoutingFilter.class);

@@ -54,6 +54,7 @@ public class RequestRateLimiterGatewayFilterFactory extends AbstractGatewayFilte
 	@SuppressWarnings("unchecked")
 	@Override
 	public GatewayFilter apply(Config config) {
+		// 限流键解析器
 		KeyResolver resolver = (config.keyResolver == null) ? defaultKeyResolver : config.keyResolver;
 		RateLimiter<Object> limiter = (config.rateLimiter == null) ? defaultRateLimiter : config.rateLimiter;
 

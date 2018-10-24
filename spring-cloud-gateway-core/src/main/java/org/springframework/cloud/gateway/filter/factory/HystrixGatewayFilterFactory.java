@@ -91,7 +91,7 @@ public class HystrixGatewayFilterFactory extends AbstractGatewayFilterFactory<Hy
 
 		return (exchange, chain) -> {
 			RouteHystrixCommand command = new RouteHystrixCommand(config.setter, config.fallbackUri, exchange, chain);
-
+			// command.toObservable()调用的回调 -> Mono
 			return Mono.create(s -> {
 				Subscription sub = command.toObservable().subscribe(s::success, s::error, s::success);
 				s.onCancel(sub::unsubscribe);

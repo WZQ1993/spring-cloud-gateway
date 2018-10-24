@@ -121,9 +121,9 @@ public class WebsocketRoutingFilter implements GlobalFilter, Ordered {
 		scheme = scheme.toLowerCase();
 		return "http".equals(scheme) ? "ws" : "https".equals(scheme) ? "wss" : scheme;
 	}
-
+	// 代理后端 WebSocket 服务处理器
 	private static class ProxyWebSocketHandler implements WebSocketHandler {
-
+		// 连接后端被代理的ws服务
 		private final WebSocketClient client;
 		private final URI url;
 		private final HttpHeaders headers;
@@ -144,7 +144,7 @@ public class WebsocketRoutingFilter implements GlobalFilter, Ordered {
 		public List<String> getSubProtocols() {
 			return this.subProtocols;
 		}
-
+		// 代理websocket的方法实现
 		@Override
 		public Mono<Void> handle(WebSocketSession session) {
 			// pass headers along so custom headers can be sent through

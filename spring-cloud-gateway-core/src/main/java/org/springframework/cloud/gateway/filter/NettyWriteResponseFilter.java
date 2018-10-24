@@ -36,6 +36,7 @@ import org.springframework.web.server.ServerWebExchange;
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.CLIENT_RESPONSE_CONN_ATTR;
 
 /**
+ * netty 回写响应网关过滤器
  * @author Spencer Gibb
  */
 public class NettyWriteResponseFilter implements GlobalFilter, Ordered {

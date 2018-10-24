@@ -35,6 +35,7 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.c
 import reactor.core.publisher.Mono;
 
 /**
+ * RouteToRequestUrlFilter 根据匹配的 Route ，计算请求的地址。注意，这里的地址指的是 URL ，而不是 URI
  * @author Spencer Gibb
  */
 public class RouteToRequestUrlFilter implements GlobalFilter, Ordered {

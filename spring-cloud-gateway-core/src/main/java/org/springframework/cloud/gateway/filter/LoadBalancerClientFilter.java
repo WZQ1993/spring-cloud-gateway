@@ -87,7 +87,7 @@ public class LoadBalancerClientFilter implements GlobalFilter, Ordered {
 		exchange.getAttributes().put(GATEWAY_REQUEST_URL_ATTR, requestUrl);
 		return chain.filter(exchange);
 	}
-
+	// 服务选择
 	protected ServiceInstance choose(ServerWebExchange exchange) {
 		return loadBalancer.choose(((URI) exchange.getAttribute(GATEWAY_REQUEST_URL_ATTR)).getHost());
 	}

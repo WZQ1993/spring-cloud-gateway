@@ -25,6 +25,7 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 
 /**
+ * redis限流器 - 使用lua脚本
  * See https://stripe.com/blog/rate-limiters and
  * https://gist.github.com/ptarjan/e38f45f2dfe601419ca3af937fff574d#file-1-check_request_rate_limiter-rb-L11-L34
  *
